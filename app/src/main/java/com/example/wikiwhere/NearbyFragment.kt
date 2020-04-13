@@ -79,7 +79,7 @@ class NearbyFragment : Fragment() {
                             var article: Article = Article()
                             context?.toast("Favorites Filled")
 
-
+                            // add to list of favs
                             list.add(article)
                         }
                         listView.adapter = ListAdapter(view.context, list)
