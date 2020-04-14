@@ -47,10 +47,10 @@
         android:layout_height="19dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="50dp"
         android:text="Username:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
 
     <TextView
         android:id="@+id/password_text"
@@ -64,15 +64,14 @@
 
     <TextView
         android:id="@+id/welcome_text"
-        android:layout_width="324dp"
-        android:layout_height="144dp"
+        android:layout_width="311dp"
+        android:layout_height="94dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="Welcome to WikiWhere Please Sign In"
         android:textColor="#FFF38E"
-        android:textSize="30dp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
