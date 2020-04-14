@@ -3,6 +3,7 @@ package com.example.wikiwhere.NearbyPlaces;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -76,7 +78,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapActivity<prviate> extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import static org.jetbrains.anko.ToastsKt.toast;
+
+public class MapActivity<prviate> extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,  GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private GoogleApiClient client;
@@ -284,6 +288,7 @@ public class MapActivity<prviate> extends AppCompatActivity implements OnMapRead
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
+        mMap.setOnInfoWindowClickListener(this);
 
         if(mapView != null && mapView.findViewById(Integer.parseInt("1")) != null) {
             View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -385,6 +390,29 @@ public class MapActivity<prviate> extends AppCompatActivity implements OnMapRead
         });
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+            String title = marker.getTitle();
+            String url = "https://www.google.com/";
+            for ( int i = 0; i < listOfTitles.size();i++){
+                Log.d("Kolbe-title",title);
+                Log.d("Kolbe-list",listOfTitles.get(i));
+                if(listOfTitles.get(i).equalsIgnoreCase(title))
+                    url = listOfUrls.get(i);
+            }
+
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+
+    }
+
     private class GetNearbyPlaces extends AsyncTask<Object, String, String> {
         private String googleplaceData, url;
         private GoogleMap mMap;
@@ -456,7 +484,8 @@ public class MapActivity<prviate> extends AppCompatActivity implements OnMapRead
 
                 LatLng latLng = new LatLng(lat, lng);
                 markerOptions.position(latLng);
-                markerOptions.title(nameOfPlace + " : " + vicinity);
+                markerOptions.title(nameOfPlace);
+                markerOptions.snippet(vicinity);
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
                 mMap.addMarker(markerOptions);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -653,4 +682,8 @@ public class MapActivity<prviate> extends AppCompatActivity implements OnMapRead
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
+
+
 }
