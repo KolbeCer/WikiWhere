@@ -2,11 +2,15 @@ package com.example.wikiwhere
 
 
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.wikiwhere.API.AuthToken
 import com.example.wikiwhere.API.FavoritesResponse
 import com.example.wikiwhere.API.UserAPI
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -41,9 +45,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? { // Inflate the layout for this fragment
-        val view: View = inflater.inflate(com.example.wikiwhere.R.layout.fragment_map, container, false)
 
-        return view
+        return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
         override fun onMapReady(gmap: GoogleMap?) {
@@ -57,8 +60,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 .build()
 
             val userapi: UserAPI = retrofit.create(UserAPI::class.java)
+            val sharedpreferences: SharedPreferences = activity?.getSharedPreferences("preferences",
+                Context.MODE_PRIVATE)!!
 
-            val call: Call<List<FavoritesResponse>> = userapi.getFavs()
+            val token = "Bearer " + sharedpreferences.getString("token","")
+
+            val call: Call<List<FavoritesResponse>> = userapi.getFavs(token.toString())
 
             doAsync {
                 call.enqueue(object : Callback<List<FavoritesResponse>> {
@@ -80,20 +87,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             error_field_login.text = "Account awaiting email verification"
                         }
                         else if (response.code() == 200){
-                            for(i in 0 until response.body()!!.size) {
-                                val lat: Double = response.body()!!.elementAt(i).lat.toDouble()
-                                val long: Double = response.body()!!.elementAt(i).lng.toDouble()
-                                val description: String = response.body()!!.elementAt(i).placeName
-                                val url: String = response.body()!!.elementAt(i).url
-                                val article: String = response.body()!!.elementAt(i).article
+                            var camera: CameraPosition = CameraPosition.builder().target(LatLng(0.0,0.0)).build()
 
-                                gMap.addMarker(MarkerOptions().position(LatLng(lat, long)).title(description))
-                                var camera: CameraPosition = CameraPosition.builder().target(LatLng(lat,long)).zoom(16F).build()
+                            for(i in response.body()!!.indices) {
+                                val lat: Double = response.body()!!.elementAt(i).favorite.placeLocation.lat.toDouble()
+                                val long: Double = response.body()!!.elementAt(i).favorite.placeLocation.lng.toDouble()
+                                val name: String = response.body()!!.elementAt(i).favorite.placeName
+                                val location: LatLng = LatLng(lat, long)
+                                // val url: String = response.body()!!.elementAt(i).url
+                                // val article: String = response.body()!!.elementAt(i).articleName
 
-                                gMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera))
-                                context?.toast("Maps Done")
+                                gMap.addMarker(MarkerOptions().position(location).title(name)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                                var camera: CameraPosition = CameraPosition.builder().target(location).zoom(16F).build()
+
+
                             }
-
+                            gMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera))
                         }
                     }
 
