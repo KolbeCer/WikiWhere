@@ -27,6 +27,10 @@
         <activity android:name="MainMenu" />
         <activity android:name=".Register" />
 
+        <activity android:name=".NearbyPlaces.MapActivity"/>
+        <activity android:name=".NearbyPlaces.MainActivity" />
+        <activity android:name=".NearbyPlaces.RealMainActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />

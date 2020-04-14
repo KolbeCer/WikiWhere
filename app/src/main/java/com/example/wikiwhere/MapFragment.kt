@@ -3,6 +3,7 @@ package com.example.wikiwhere
 
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -66,6 +67,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val token = "Bearer " + sharedpreferences.getString("token","")
 
             val call: Call<List<FavoritesResponse>> = userapi.getFavs(token.toString())
+
+            btn_Nearby_Places.setOnClickListener {
+                startActivity(Intent(activity, com.example.wikiwhere.NearbyPlaces.MainActivity::class.java))
+            }
+
 
             doAsync {
                 call.enqueue(object : Callback<List<FavoritesResponse>> {

@@ -11,4 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+
+    <Button
+        android:id="@+id/btn_Nearby_Places"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorPrimary"
+        android:text="Go to Location"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
 </FrameLayout>

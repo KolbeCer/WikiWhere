@@ -5,8 +5,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_test">Test</string>
-
+    <string name="permission_text">Permission Request</string>
+    <string name="explanation">WikiWhere needs permission to access device location in order to function properly. Please confirm the permission to continue using WikiWhere.</string>
+    <string name="title_activity_map">MapActivity</string>
     <string name="map_key" translatable="false">AIzaSyCVcaWYjLUyzeHQtMBdcZ2MRyZ2tODl1wY</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -32,8 +32,10 @@ class ListAdapter (private val context: Context,
         val snippetTextview = rowView.findViewById<TextView>(R.id.item_snippet)
         val distanceTextview = rowView.findViewById<TextView>(R.id.item_url)
 
-
-        titlTextview.text = dataSource?.elementAt(position)!!.favorite.placeName
+        if(dataSource?.elementAt(position)!!.favorite.placeName == null)
+            titlTextview.text = dataSource?.elementAt(position)!!.favorite.articleTitle
+        else
+            titlTextview.text = dataSource?.elementAt(position)!!.favorite.placeName
         snippetTextview.text = dataSource?.elementAt(position)!!.favorite.articleTitle
         distanceTextview.text = dataSource?.elementAt(position)!!.favorite.articleURL
 

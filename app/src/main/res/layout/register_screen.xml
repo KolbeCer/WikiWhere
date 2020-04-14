@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/welcome_text"
-        android:layout_width="343dp"
-        android:layout_height="90dp"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:gravity="center"
         android:text="Please Fill in Information to Complete Registration"
         android:textColor="#FFF38E"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
